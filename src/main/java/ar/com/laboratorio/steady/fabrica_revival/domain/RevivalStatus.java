@@ -17,5 +17,12 @@ public record RevivalStatus(String value) {
     public boolean canBeReactivated() {
         return "Audited".equals(value);
     }
-
+    public RevivalStatus nextOnReactivation() {
+        return switch (value) {
+            case "Audited" -> new RevivalStatus("Reactivated");
+            case "Dormant" -> throw new IllegalStateException("Debe auditarse antes de reactivar.");
+            case "Reactivated" -> throw new IllegalStateException("Ya está reactivado.");
+            default -> throw new IllegalStateException("Estado desconocido.");
+        };
+    }
 }
