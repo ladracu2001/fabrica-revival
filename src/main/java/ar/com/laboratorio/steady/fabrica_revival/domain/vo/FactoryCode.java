@@ -1,4 +1,4 @@
-package ar.com.laboratorio.steady.fabrica_revival.domain;
+package ar.com.laboratorio.steady.fabrica_revival.domain.vo;
 
 import java.util.regex.Pattern;
 import static java.util.Objects.isNull;

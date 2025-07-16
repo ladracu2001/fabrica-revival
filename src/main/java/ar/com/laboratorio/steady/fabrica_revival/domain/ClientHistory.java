@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import ar.com.laboratorio.steady.fabrica_revival.domain.vo.ClientHistoryEntry;
+
 public class ClientHistory {
 
     private final UUID clientId;

@@ -2,6 +2,9 @@ package ar.com.laboratorio.steady.fabrica_revival.domain;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+
+import ar.com.laboratorio.steady.fabrica_revival.domain.vo.FactoryCode;
+import ar.com.laboratorio.steady.fabrica_revival.domain.vo.RevivalStatus;
 import lombok.Getter;
 import lombok.Setter;
 import static java.util.Objects.requireNonNull;

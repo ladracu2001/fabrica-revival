@@ -1,4 +1,4 @@
-package ar.com.laboratorio.steady.fabrica_revival.domain;
+package ar.com.laboratorio.steady.fabrica_revival.domain.vo;
 
 import ar.com.laboratorio.steady.fabrica_revival.domain.exceptions.RevivalStatusRecordException;
 
