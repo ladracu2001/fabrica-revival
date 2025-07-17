@@ -1,4 +1,4 @@
-package ar.com.laboratorio.steady.fabrica_revival.infrastructure.dtos;
+package ar.com.laboratorio.steady.fabrica_revival.infrastructure.kafka.messages;
 
 import java.time.Instant;
 import java.util.Map;

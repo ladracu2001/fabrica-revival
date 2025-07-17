@@ -35,6 +35,25 @@ public class LegacyClient {
         this.history.recordEntry(ClientEventType.IMPORTED, String.format("Cliente legado importado con código: %s", factoryCode));
     }
 
+    private LegacyClient(UUID id, FactoryCode factoryCode, RevivalStatus revivalStatus,
+                         LocalDateTime createdAt, ClientHistory history) {
+        this.id = id;
+        this.factoryCode = factoryCode;
+        this.revivalStatus = revivalStatus;
+        this.createdAt = createdAt;
+        this.history = history;
+    }
+
+    public static LegacyClient create(FactoryCode factoryCode) {
+        UUID id = UUID.randomUUID();
+        LocalDateTime now = LocalDateTime.now();
+        ClientHistory history = new ClientHistory(id);
+
+        history.appendCustom(ClientEventType.IMPORTED, "Cliente legado creado", now);
+
+        return new LegacyClient(id, factoryCode, RevivalStatus.dormant(), now, history);
+    }
+
     public void audit(String observation){
         if(isNull(observation) || observation.isBlank()) {
             throw new LegacyClientException("La observación no puede ser nula o vacía");

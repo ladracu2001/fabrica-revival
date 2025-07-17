@@ -1,8 +1,9 @@
 package ar.com.laboratorio.steady.fabrica_revival.infrastructure.api.mappers;
 
 import ar.com.laboratorio.steady.fabrica_revival.domain.LegacyClient;
-import ar.com.laboratorio.steady.fabrica_revival.infrastructure.dtos.LegacyClientRequest;
 import ar.com.laboratorio.steady.fabrica_revival.domain.vo.FactoryCode;
+import ar.com.laboratorio.steady.fabrica_revival.infrastructure.api.dto.LegacyClientRequest;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -18,7 +19,7 @@ public interface LegacyClientMapper {
 
     @Named("toFactoryCode")
     default FactoryCode toFactoryCode(String code) {
-        return new FactoryCode(code); // encapsula validación en VO
+        return FactoryCode.of(code); // encapsula validación en VO
     }
 
 }

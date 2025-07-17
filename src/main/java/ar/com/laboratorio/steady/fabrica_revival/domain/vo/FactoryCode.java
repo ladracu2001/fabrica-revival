@@ -13,6 +13,10 @@ private static final Pattern VALID_PATTERN = Pattern.compile("[A-Z]{3}-\\d{4}");
             throw new FactoryCodeRecordException("Formato inválido para FactoryCode. Se espera 'AAA-0000'");
         }
     }
+    
+    public static FactoryCode of(String value) {
+        return new FactoryCode(value);
+    }
 
     @Override
     public String toString() {
