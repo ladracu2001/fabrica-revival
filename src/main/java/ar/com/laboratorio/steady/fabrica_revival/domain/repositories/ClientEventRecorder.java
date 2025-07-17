@@ -4,5 +4,5 @@ import ar.com.laboratorio.steady.fabrica_revival.domain.vo.ClientDomainEvent;
 
 public interface ClientEventRecorder {
 
-    void record(ClientDomainEvent event);
+    void recordEntry(ClientDomainEvent event);
 }

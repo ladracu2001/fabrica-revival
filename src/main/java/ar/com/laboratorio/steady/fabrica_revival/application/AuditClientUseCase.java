@@ -25,7 +25,7 @@ public class AuditClientUseCase implements ClientAuditor {
         client.audit(observation);
         this.clientRepository.save(client);
         ClientDomainEvent event = ClientDomainEvent.of(client.getId(), ClientEventType.AUDITED, "Application", String.format("Cliente auditado %s", observation));
-        this.clientEventRecorder.record(event);
+        this.clientEventRecorder.recordEntry(event);
     }
 
 }
