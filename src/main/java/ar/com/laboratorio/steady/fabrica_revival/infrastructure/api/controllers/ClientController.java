@@ -10,6 +10,7 @@ import ar.com.laboratorio.steady.fabrica_revival.application.RetrieveClientHisto
 import ar.com.laboratorio.steady.fabrica_revival.infrastructure.api.dto.AuditoryRequest;
 import ar.com.laboratorio.steady.fabrica_revival.infrastructure.api.dto.ClientImportRequest;
 import ar.com.laboratorio.steady.fabrica_revival.infrastructure.api.dto.HistoricalEntryResponse;
+import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.UUID;
@@ -40,12 +41,12 @@ public class ClientController {
     }
 
     @PostMapping("/import")
-    public ResponseEntity<UUID> importClient(@RequestBody ClientImportRequest dto) {
+    public ResponseEntity<UUID> importClient(@RequestBody @Valid ClientImportRequest dto) {
         var id = legacyClientImporter.importLegacyClient(dto.factoryCode());
         return ResponseEntity.ok(id);
     }
     @PostMapping("/{id}/audit")
-    public ResponseEntity<Void> auditClient(@PathVariable UUID id, @RequestBody AuditoryRequest request) {
+    public ResponseEntity<Void> auditClient(@PathVariable UUID id, @RequestBody @Valid AuditoryRequest request) {
         clientAuditor.audit(id, request.observacion());
         return ResponseEntity.noContent().build();
     }
