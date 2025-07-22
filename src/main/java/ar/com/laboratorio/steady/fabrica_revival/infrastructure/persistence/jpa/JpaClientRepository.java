@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 import ar.com.laboratorio.steady.fabrica_revival.domain.LegacyClient;
 import ar.com.laboratorio.steady.fabrica_revival.domain.repositories.ClientRepository;
 import ar.com.laboratorio.steady.fabrica_revival.domain.vo.FactoryCode;
@@ -11,6 +12,7 @@ import ar.com.laboratorio.steady.fabrica_revival.infrastructure.api.mappers.Lega
 import ar.com.laboratorio.steady.fabrica_revival.infrastructure.persistence.models.LegacyClientEntity;
 
 public class JpaClientRepository implements ClientRepository {
+
 
     private final EntityManager entityManager;
 
@@ -39,6 +41,7 @@ public class JpaClientRepository implements ClientRepository {
     }
 
     @Override
+    @Transactional
     public void save(LegacyClient client) {
         entityManager.merge(new LegacyClientMapper(){}.toEntityJpa(client));
     }
