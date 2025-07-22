@@ -35,7 +35,7 @@ public class LegacyClient {
         this.history.recordEntry(ClientEventType.IMPORTED, String.format("Cliente legado importado con código: %s", factoryCode));
     }
 
-    private LegacyClient(UUID id, FactoryCode factoryCode, RevivalStatus revivalStatus,
+    public LegacyClient(UUID id, FactoryCode factoryCode, RevivalStatus revivalStatus,
                          LocalDateTime createdAt, ClientHistory history) {
         this.id = id;
         this.factoryCode = factoryCode;

@@ -7,6 +7,8 @@ import jakarta.persistence.TypedQuery;
 import ar.com.laboratorio.steady.fabrica_revival.domain.LegacyClient;
 import ar.com.laboratorio.steady.fabrica_revival.domain.repositories.ClientRepository;
 import ar.com.laboratorio.steady.fabrica_revival.domain.vo.FactoryCode;
+import ar.com.laboratorio.steady.fabrica_revival.infrastructure.api.mappers.LegacyClientMapper;
+import ar.com.laboratorio.steady.fabrica_revival.infrastructure.persistence.models.LegacyClientEntity;
 
 public class JpaClientRepository implements ClientRepository {
 
@@ -18,26 +20,33 @@ public class JpaClientRepository implements ClientRepository {
 
     @Override
     public LegacyClient findById(UUID clientId) {
-        return entityManager.find(LegacyClient.class, clientId);
+        LegacyClientEntity entity = entityManager.find(LegacyClientEntity.class, clientId);
+        return entity != null ? new LegacyClientMapper(){}.toDomainModelo(entity) : null;
     }
 
     @Override
     public List<LegacyClient> findAll() {
-        TypedQuery<LegacyClient> query = entityManager.createQuery(
-            "SELECT c FROM LegacyClient c", LegacyClient.class
+        TypedQuery<LegacyClientEntity> query = entityManager.createQuery(
+            "SELECT c FROM LegacyClientEntity c", LegacyClientEntity.class
         );
-        return query.getResultList();
+        List<LegacyClientEntity> entities = query.getResultList();
+        List<LegacyClient> clients = new java.util.ArrayList<>();
+        LegacyClientMapper mapper = new LegacyClientMapper() {};
+        for (LegacyClientEntity entity : entities) {
+            clients.add(mapper.toDomainModelo(entity));
+        }
+        return clients;
     }
 
     @Override
     public void save(LegacyClient client) {
-        entityManager.merge(client);
+        entityManager.merge(new LegacyClientMapper(){}.toEntityJpa(client));
     }
 
     @Override
     public boolean existsByFactoryCode(FactoryCode factoryCode) {
         TypedQuery<Long> query = entityManager.createQuery(
-            "SELECT COUNT(c) FROM LegacyClient c WHERE c.factoryCode.value = :value", Long.class
+            "SELECT COUNT(c) FROM LegacyClientEntity c WHERE c.factoryCode = :value", Long.class
         );
         query.setParameter("value", factoryCode.value());
         return query.getSingleResult() > 0;

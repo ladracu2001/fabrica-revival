@@ -1,25 +1,45 @@
 package ar.com.laboratorio.steady.fabrica_revival.infrastructure.api.mappers;
 
+import ar.com.laboratorio.steady.fabrica_revival.domain.ClientHistory;
 import ar.com.laboratorio.steady.fabrica_revival.domain.LegacyClient;
 import ar.com.laboratorio.steady.fabrica_revival.domain.vo.FactoryCode;
+import ar.com.laboratorio.steady.fabrica_revival.domain.vo.RevivalStatus;
 import ar.com.laboratorio.steady.fabrica_revival.infrastructure.api.dto.LegacyClientRequest;
+import ar.com.laboratorio.steady.fabrica_revival.infrastructure.persistence.models.LegacyClientEntity;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-import org.mapstruct.factory.Mappers;
-
-@Mapper
 public interface LegacyClientMapper {
 
-    LegacyClientMapper INSTANCE = Mappers.getMapper(LegacyClientMapper.class);
-    
-    @Mapping(target = "factoryCode", source = "factoryCode", qualifiedByName = "toFactoryCode")
-    LegacyClient toEntity(LegacyClientRequest dto);
-
-    @Named("toFactoryCode")
-    default FactoryCode toFactoryCode(String code) {
-        return FactoryCode.of(code); // encapsula validación en VO
+    default LegacyClient toEntity(LegacyClientRequest dto) {
+        if (dto == null) {
+            return null;
+        }
+        return new LegacyClient(FactoryCode.of(dto.factoryCode()));
     }
 
+    default LegacyClient toDomainModelo(LegacyClientEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+        var revivalStatus = new RevivalStatus(entity.getRevivalStatus());
+        var history = new ClientHistory(entity.getId());
+        return new LegacyClient(
+            entity.getId(),
+            FactoryCode.of(entity.getFactoryCode()),
+            revivalStatus,
+            entity.getCreatedAt(),
+            history
+        );
+    }
+
+    default LegacyClientEntity toEntityJpa(LegacyClient domain) {
+        if (domain == null) {
+            return null;
+        }
+        var entity = new LegacyClientEntity(domain.getId(), 
+                                            domain.getFactoryCode().value(), 
+                                            domain.getRevivalStatus().value(), 
+                                            domain.getCreatedAt(), 
+                                            new java.util.ArrayList<>());
+        return entity;
+    }
 }
